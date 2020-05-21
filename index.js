@@ -12,9 +12,9 @@ const http = require('http');
 const socketio = require('socket.io');
 
 var currentSockets = {}
-const User = require("./models/user");
-const Group = require("./models/group");
-const Notification = require("./models/notification");
+const User = require("./models/User.js");
+const Group = require("./models/Group.js");
+const Notification = require("./models/Notification.js");
 
 mongoose
     .connect(
