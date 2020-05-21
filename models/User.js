@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Group = require("../models/group");
+const Group = require("../models/Group.js");
 
 const UserSchema = mongoose.Schema({
 	userName: {

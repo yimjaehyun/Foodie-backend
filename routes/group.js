@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 // Group Model
-const Group = require("../models/group");
-const User = require("../models/user");
+const Group = require("../models/Group.js");
+const User = require("../models/User.js");
 
 router.post('/create', (req, res) => {
 	const {name, users, admins, location, radius} = req.body || {}

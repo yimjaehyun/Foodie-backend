@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 // Models
-const Notification = require("../models/notification");
-const User = require("../models/user");
+const Notification = require("../models/Notification.js");
+const User = require("../models/User.js");
 
 router.get('/id/:id', (req, res) => {
 	const id = req.params.id;

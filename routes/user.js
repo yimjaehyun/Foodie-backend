@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 
 // User Model
-const User = require("../models/user");
+const User = require("../models/User.js");
 
 router.post('/register', (req, res) => {
 	let errors = []

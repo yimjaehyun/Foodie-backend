@@ -31,10 +31,10 @@ const io = socketio(server);
 
 app.use(bodyParser.json());
 // Routes
-app.use('/restaurant', require('./routes/restaurant'));
-app.use('/user', require('./routes/user'));
-app.use('/group', require('./routes/group'));
-app.use('/notification', require('./routes/notification'));
+app.use('/restaurant', require('./routes/restaurant.js'));
+app.use('/user', require('./routes/user.js'));
+app.use('/group', require('./routes/group.js'));
+app.use('/notification', require('./routes/notification.js'));
 
 io.on('connect', socket => {
 	console.log('new connection');
