@@ -5,7 +5,7 @@ const router = express.Router();
 const Group = require("../models/Group.js");
 const User = require("../models/User.js");
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => {
 	const {name, users, admins, location, radius} = req.body || {}
 	if (!name || !users || !admins) {
 		return res.status(400).json({msg: "Missing group name or list of users"})
@@ -26,18 +26,26 @@ router.post('/create', (req, res) => {
 		newGroup.radius = radius
 	}
 
-	newGroup.save().then(group => {
-		// Update User's current groups
-		for (var i = 0; i < users.length; i++) {
-			User.findByIdAndUpdate(users[i], { "$push": { "groups": group.id }, "$set": { "currentGroup": group }}, {new: true},
-				(err, raw) => {
-					if (err) throw err;
-				}
-			);
-		}
-		return res.status(200).json({groupId: group.id, msg: "New Group created"});
-	})
-		.catch(err => console.log(err));
+	let group = await newGroup.save()
+
+    // Update User's current groups
+    for (var i = 0; i < users.length; i++) {
+        await User.findByIdAndUpdate(users[i], { "$push": { "groups": group.id }, "$set": { "currentGroup": group }}, {new: true},
+            (err, raw) => {
+                if (err) throw err;
+            }
+        );
+    }
+
+    await group.populate({
+            path: 'users', 
+            select: '-groups -password -currentGroup',
+            populate: { 
+                path: 'friends',
+                select: '-groups -friends -password -currentGroup'}
+        }).execPopulate()
+
+	return res.status(200).json({group: group, msg: "New Group created"});
 })
 
 router.post('/remove', (req, res) => {

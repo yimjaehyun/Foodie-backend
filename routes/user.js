@@ -184,7 +184,12 @@ router.get('/id/:id', (req, res) => {
 				path: 'users',
 				select: '-groups -friends -password -currentGroup'}
 		 })
-		.populate('currentGroup')
+		.populate({
+		 	path: 'currentGroup',
+			populate: { 
+				path: 'users',
+				select: '-groups -friends -password -currentGroup'}
+		 })
 		.select('-password')
 		.then(user => {
 		if(!user) return res.status(400).json({msg: "No user by the id: " + id});
