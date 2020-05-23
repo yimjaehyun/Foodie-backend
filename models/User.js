@@ -40,7 +40,11 @@ const UserSchema = mongoose.Schema({
 	currentGroup: {
 		type: mongoose.Schema.Types.ObjectId, 
 		ref: 'Group'
-	}
+    },
+    restaurantOffset: {
+        type: Number,
+        default: 0
+    }
 });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -28,9 +28,10 @@ router.post('/create', async (req, res) => {
 
 	let group = await newGroup.save()
 
+
     // Update User's current groups
-    for (var i = 0; i < users.length; i++) {
-        await User.findByIdAndUpdate(users[i], { "$push": { "groups": group.id }, "$set": { "currentGroup": group }}, {new: true},
+    for (let i = 0; i < users.length; i++) {
+        User.findByIdAndUpdate(users[i], { "$push": { "groups": group.id }, "$set": { "currentGroup": group }},
             (err, raw) => {
                 if (err) throw err;
             }
