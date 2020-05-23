@@ -16,11 +16,13 @@ router.get('/id/:id', function (req, res) {
 router.get('/radius/:radius', function(req, res) {
 	if(!req.query.location)
 		res.send("Missing location parameter.")
+    const offset = req.query.offset || 0
 
 	const searchRequest = {
 		term: 'restaurants',
 		location: req.query.location,
-		radius: req.params.radius
+        radius: req.params.radius,
+        offset: offset
 	};
 
 	client.search(searchRequest).then(response => {
