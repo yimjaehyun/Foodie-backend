@@ -28,6 +28,10 @@ const GroupSchema = mongoose.Schema({
 	radius: {
 		type: Number,
 		default: 2000
+    },
+	offsets: {
+		type: Map,
+        of: Number
 	}
 });
 

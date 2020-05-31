@@ -11,14 +11,23 @@ router.post('/create', async (req, res) => {
 		return res.status(400).json({msg: "Missing group name or list of users"})
 	}
 
+    console.log(radius)
+
 	if (admins.length == 0) {
 		return res.status(400).json({msg: "Must appoint an admin"})
 	}
 
+    // initialize offsets for each user to start at 0
+    var offsets = {}
+    users.forEach(user => {
+        offsets[user] = 0
+    });
+
 	var newGroup = Group({
 		name,
 		users,
-		admins
+        admins,
+        offsets
 	})
 
 	if (location && radius) {
@@ -132,6 +141,24 @@ router.get('/id/:id', (req, res) => {
 		res.status(200).json(group);
 	})
 })
+
+router.post('/offset', async (req, res) => {
+	var {userId, groupId, offset} = req.body || {}
+
+    if(!userId || !groupId || offset == null ) {
+        return res.status(400).json({"errors": ["Missing userId, groupId, or offset in the body"] })
+    }
+
+    let group = await Group.findById( groupId );
+
+    if (!group) return res.status(400).json({msg: "No group by the id: " + id});
+
+    group.offsets.set(userId, offset);
+    group.markModified('offsets');
+    group.save();
+
+    return res.status(200).json({offset: group.offsets});
+});
 
 module.exports = router;
 

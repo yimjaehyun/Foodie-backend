@@ -22,7 +22,8 @@ router.get('/radius/:radius', function(req, res) {
 		term: 'restaurants',
 		location: req.query.location,
         radius: req.params.radius,
-        offset: offset
+        offset: offset,
+        limit: 50 //50 is the max allowed by yelp API
 	};
 
 	client.search(searchRequest).then(response => {

@@ -223,19 +223,4 @@ router.get('/search', async (req, res) => {
 	return res.status(200).json(foundUsers)
 })
 
-router.post('/offset', async (req, res) => {
-	var {userId, offset} = req.body || {}
-
-    if(!userId || offset == null) {
-        return res.status(400).json({"errors": ["Missing userId or offset in the body"] })
-    }
-
-    let user = await User.findByIdAndUpdate( userId, {"$set": { "restaurantOffset": offset } },
-        (err, raw) => {
-            if (err) return res.status(400).json({msg: err});
-        });	
-
-    return res.status(200).json({offset: user.restaurantOffset});
-});
-
 module.exports = router;
