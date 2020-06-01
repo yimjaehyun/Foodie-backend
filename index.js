@@ -149,7 +149,7 @@ io.on('connect', socket => {
                     select: '-groups -friends -password -currentGroup'}
             });
 
-        var recieverId = String(notification.reciever)
+        var recieverId = String(notification.reciever._id)
 
         // delete notification
         await Notification.findByIdAndRemove(notification.id);
