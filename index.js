@@ -194,8 +194,14 @@ io.on('connect', socket => {
             group.markModified('likes');
             group.save();
         }
-    })
 
+        socket.broadcast.to(groupId).emit('friend_liked', userId, restaurantId);
+    });
+
+    socket.on("join", async(data, ackFn) => {
+        let roomId = data.roomId
+        socket.join(roomId);
+    });
 });
 
 server.listen(port, () => console.log(`foodieAPI listening on port ${port}!`));
