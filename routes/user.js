@@ -30,13 +30,15 @@ router.post('/register', (req, res) => {
 	}
 
 	// Check for exisiting user
+    email =  email.toLowerCase()
 	User.findOne({ email }).then(user => {
 		var errors = []
 
 		if (user) {
 			errors.push("Email already registered.");
 		}
-
+        
+        userName = userName.toLowerCase()
 		User.findOne({ userName }).then(user2 => {
 			if (user2) {
 				errors.push("userName already taken.");
@@ -153,7 +155,7 @@ router.post('/login', (req, res) => {
 		return res.status(400).json({errors: ["Missing fields"]})
 	}
 
-	var searchBy = email || userName
+	var searchBy = email.toLowerCase() || userName.toLowerCase()
 
 	User.findOne({$or: [{'email': searchBy}, {'userName': searchBy}]}).then(user => {
 		if(!user) return res.status(400).json({errors: ["Incorrect credentials"]})
